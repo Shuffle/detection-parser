@@ -19,3 +19,7 @@ result = evaluate_email_expression(email_json, expression)
 print(result)
 ```
 
+## To-do
+
+Attach all binary .so files to the package to be uploaded to PyPI
+
