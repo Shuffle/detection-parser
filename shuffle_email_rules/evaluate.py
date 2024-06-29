@@ -14,7 +14,7 @@ lib = ctypes.CDLL(lib_path)
 lib.EvaluateCELExpressionC.argtypes = [ctypes.c_char_p, ctypes.c_char_p]
 lib.EvaluateCELExpressionC.restype = ctypes.c_char_p
 
-def evaluate_cel_expression(email_json, expression):
+def evaluate_email_expression(email_json, expression):
     # Convert Python strings to bytes
     email_json_b = email_json.encode('utf-8')
     expression_b = expression.encode('utf-8')
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     email_json = '{"sender": "test@example.com"}'
     expression = 'email.sender.endsWith("@example.com")'
 
-    result = evaluate_cel_expression(email_json, expression)
+    result = evaluate_email_expression(email_json, expression)
 
     if result.startswith("error:"):
         print(f"Error: {result[6:]}")
@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     # now to test for false
     expression = 'email.sender.endsWith("@!example.com")'
-    result = evaluate_cel_expression(email_json, expression)
+    result = evaluate_email_expression(email_json, expression)
 
     if result.startswith("error:"):
         print(f"Error: {result[6:]}")

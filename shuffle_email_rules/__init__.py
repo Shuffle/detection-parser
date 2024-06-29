@@ -1,5 +1,5 @@
 # shuffle-email-rules/__init__.py
 
-from .evaluate import evaluate_cel_expression
+from .evaluate import evaluate_email_expression
 
-__all__ = ['evaluate_cel_expression']
+__all__ = ['evaluate_email_expression']

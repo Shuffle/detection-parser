@@ -1,13 +1,13 @@
 # shuffle-email-rules/main.py
 
-from evaluate import evaluate_cel_expression
+from evaluate import evaluate_email_expression
 
 def main():
     # Example usage
     email_json = '{"sender": "test@example.com"}'
     expression = 'email.sender.endsWith("@example.com")'
 
-    result = evaluate_cel_expression(email_json, expression)
+    result = evaluate_email_expression(email_json, expression)
 
     if result.startswith("error:"):
         print(f"Error: {result[6:]}")
@@ -16,7 +16,7 @@ def main():
 
     # Now to test for false
     expression = 'email.sender.endsWith("@!example.com")'
-    result = evaluate_cel_expression(email_json, expression)
+    result = evaluate_email_expression(email_json, expression)
 
     if result.startswith("error:"):
         print(f"Error: {result[6:]}")
