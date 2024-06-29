@@ -5,7 +5,7 @@ Email rules for everyone
 ## Installation
 
 ```bash
-pip install shuffle-email-rules==0.1
+pip install shuffle-email-rules
 ```
 
 
@@ -21,5 +21,5 @@ print(result)
 
 ## To-do
 
-Attach all binary .so files to the package to be uploaded to PyPI
+Attach all binary .so files to the package to be uploaded to PyPI. Right now, only works on ARM"
 
