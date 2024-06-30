@@ -30,8 +30,9 @@ jobs:
       run: |
         set CGO_ENABLED=1  
         cd shuffle_email_rules/lib/
+        go mod tidy
         mkdir -p build/${{ matrix.goos }}_${{ matrix.goarch }}
-        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/${{ matrix.goos }}_${{ matrix.goarch }}/hello_${{ matrix.goos }} -buildmode=c-shared
+        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/${{ matrix.goos }}_${{ matrix.goarch }}/libshuffleemail_${{ matrix.goos }} -buildmode=c-shared
 
     - name: Commit binaries
       run: |
@@ -40,7 +41,7 @@ jobs:
         branch_name="binaries-${{ github.sha }}"
         git checkout -b $branch_name
         mkdir -p binaries/${{ matrix.goos }}_${{ matrix.goarch }}
-        mv build/${{ matrix.goos }}_${{ matrix.goarch }}/hello_${{ matrix.goos }} binaries/${{ matrix.goos }}_${{ matrix.goarch }}/
+        mv build/${{ matrix.goos }}_${{ matrix.goarch }}/libshuffleemail_${{ matrix.goos }} binaries/${{ matrix.goos }}_${{ matrix.goarch }}/
         git add binaries/
         git commit -m "Add compiled binaries for ${{ matrix.goos }}_${{ matrix.goarch }}"
         git push origin $branch_name
