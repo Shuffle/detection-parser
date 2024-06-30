@@ -54,6 +54,6 @@ jobs:
         git add binaries/
         git commit -m "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}"
         # sleep for a random amount of time between 1 and 10 seconds
-        sleep $((1 + RANDOM % 20))
+        sleep $((1 + RANDOM  % 30))
         git pull 
         git push
