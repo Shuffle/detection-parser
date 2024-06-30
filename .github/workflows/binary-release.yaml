@@ -4,9 +4,8 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+    paths-ignore:
+      - 'shuffle_email_rules/lib/binaries/**'
 
 jobs:
   build:
@@ -48,11 +47,12 @@ jobs:
         cd shuffle_email_rules/lib/
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
+        git config pull.rebase false  # merge
         mkdir -p binaries/
         mv build/libshuffleemail_${{ matrix.goos }}_${{ matrix.goarch }} binaries/
         git add binaries/
         git commit -m "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}"
         # sleep for a random amount of time between 1 and 10 seconds
-        sleep $((1 + RANDOM % 10))
+        sleep $((1 + RANDOM % 20))
         git pull 
         git push
