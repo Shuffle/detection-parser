@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='shuffle-heimdall',
-    version='0.1',
+    version='0.2',
     description='An open-source language for email filtering rules.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
