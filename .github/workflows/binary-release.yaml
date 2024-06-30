@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - 'shuffle_email_rules/lib/binaries/**'
+    paths:
+      - '!shuffle_email_rules/lib/binaries/**'
+      - '*.go'
 
 jobs:
   build:

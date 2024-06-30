@@ -4,11 +4,21 @@ import ctypes
 # Get the directory path of the current module
 module_dir = os.path.dirname(__file__)
 
-# Construct the path to libhello.so
-lib_path = os.path.join(module_dir, 'lib', 'libhello.so')
+platform = os.uname().sysname.lower()
+# get if the architecture is arm64 or amd64
+architecture = "arm64" if os.uname().machine == "aarch64" else "amd64"
 
-# Load the library
-lib = ctypes.CDLL(lib_path)
+binary_name = f"libshuffleemail_{platform}_{architecture}"
+
+try:
+    # Construct the path to libhello.so
+    lib_path = os.path.join(module_dir, 'lib', 'binaries', binary_name)
+
+    # Load the library
+    lib = ctypes.CDLL(lib_path)
+except OSError as e:
+    print(f"Failed to load the library: {e}")
+    exit(1)
 
 # Define the function prototype
 lib.EvaluateCELExpressionC.argtypes = [ctypes.c_char_p, ctypes.c_char_p]
