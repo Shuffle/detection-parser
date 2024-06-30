@@ -52,14 +52,7 @@ jobs:
         mv build/libshuffleemail_${{ matrix.goos }}_${{ matrix.goarch }} binaries/
         git add binaries/
         git commit -m "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}"
-        git checkout -b "binaries-${{ matrix.goos }}-${{ matrix.goarch }}_$(date +'%Y%m%d%H%M%S')"
-    
-    - name: Make a PR 
-      run: |
-        cd shuffle_email_rules/lib/
-        git push origin "binaries-${{ matrix.goos }}-${{ matrix.goarch }}_$(date +'%Y%m%d%H%M%S')"
-        gh pr create --title "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}" --body "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}" --base main --head "binaries-${{ matrix.goos }}-${{ matrix.goarch }}_$(date +'%Y%m%d%H%M%S')"
-      
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        # sleep for a random amount of time between 1 and 10 seconds
+        sleep $((1 + RANDOM % 10))
+        git pull 
+        git push
