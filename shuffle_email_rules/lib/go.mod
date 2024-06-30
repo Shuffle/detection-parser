@@ -1,4 +1,4 @@
-module github.com/Shuffle/shuffle-email-rules
+module main
 
 go 1.22
 
