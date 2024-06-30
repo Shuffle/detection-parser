@@ -21,4 +21,4 @@ print(result)
 
 ## To-do
 
-Works on most platforms. The power of heimdall should shine when you have a lot of emails to process but you want to write simple fast code.
+Works on most platforms. The power of heimdall should shine when you have a lot of emails to process but you want to write simple code that is also fast.
