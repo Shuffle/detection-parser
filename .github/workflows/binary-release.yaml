@@ -26,19 +26,20 @@ jobs:
       with:
         go-version: '1.22' # Replace with your Go version
 
-    - name: Set up GCC
-      uses: egor-tensin/setup-gcc@v1
-      with:
-        version: latest
-        platform: ${{ matrix.goarch }}
+    # - name: Set up GCC
+    #   uses: egor-tensin/setup-gcc@v1
+    #   with:
+    #     version: latest
+    #     platform: ${{ matrix.goarch }}
 
     - name: Build binary
-      run: |
-        set CGO_ENABLED=1  
+      run: | 
         cd shuffle_email_rules/lib/
         go mod tidy
         mkdir -p build/${{ matrix.goos }}_${{ matrix.goarch }}
-        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/${{ matrix.goos }}_${{ matrix.goarch }}/libshuffleemail_${{ matrix.goos }} -buildmode=c-shared
+        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/${{ matrix.goos }}_${{ matrix.goarch }}/libshuffleemail_${{ matrix.goos }} -buildmode=c-shared -v
+      env:
+        CGO_ENABLED: 1
 
     - name: Commit binaries
       run: |
