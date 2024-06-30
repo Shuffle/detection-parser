@@ -37,7 +37,7 @@ jobs:
         cd shuffle_email_rules/lib/
         go mod tidy
         mkdir -p build/${{ matrix.goos }}_${{ matrix.goarch }}
-        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/${{ matrix.goos }}_${{ matrix.goarch }}/libshuffleemail_${{ matrix.goos }} -buildmode=c-shared -v
+        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/libshuffleemail_{{ matrix.goos }}_{{ matrix.goarch }} -buildmode=c-shared -v
       env:
         CGO_ENABLED: 1
 
@@ -46,22 +46,8 @@ jobs:
         cd shuffle_email_rules/lib/
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
-        branch_name="binaries-${{ github.sha }}"
-        git checkout -b $branch_name
-        mkdir -p binaries/${{ matrix.goos }}_${{ matrix.goarch }}
-        mv build/${{ matrix.goos }}_${{ matrix.goarch }}/libshuffleemail_${{ matrix.goos }} binaries/${{ matrix.goos }}_${{ matrix.goarch }}/
+        mkdir -p binaries/
+        mv build/libshuffleemail_{{ matrix.goos }}_{{ matrix.goarch }} binaries/
         git add binaries/
-        git commit -m "Add compiled binaries for ${{ matrix.goos }}_${{ matrix.goarch }}"
-        git push origin $branch_name
-
-    - name: Create pull request
-      uses: peter-evans/create-pull-request@v5
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: Add compiled binaries for ${{ matrix.goos }}_${{ matrix.goarch }}
-        branch: main
-        title: Add compiled binaries
-        body: |
-          This PR adds the compiled binaries for the following platform and architecture:
-          - OS: ${{ matrix.goos }}
-          - Architecture: ${{ matrix.goarch }}
+        git commit -m "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}"
+        git push origin main
