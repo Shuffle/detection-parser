@@ -21,5 +21,4 @@ print(result)
 
 ## To-do
 
-Attach all binary .so files to the package to be uploaded to PyPI. Right now, only works on ARM"
-
+Works on most platforms. The power of shuffle-email-rules should shine when you have a lot of emails to process but you want to write simple fast code.
