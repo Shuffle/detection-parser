@@ -1,7 +1,7 @@
 import os
 import ctypes
 
-from .errors import HeimdallEvaluationError
+from errors import HeimdallEvaluationError
 
 # Get the directory path of the current module
 module_dir = os.path.dirname(__file__)
@@ -25,6 +25,9 @@ except OSError as e:
 lib.EvaluateCELExpressionC.argtypes = [ctypes.c_char_p, ctypes.c_char_p]
 lib.EvaluateCELExpressionC.restype = ctypes.c_char_p
 
+lib.HandleGmailMessageC.argtypes = [ctypes.c_char_p, ctypes.c_char_p]
+lib.HandleGmailMessageC.restype = ctypes.c_char_p
+
 def evaluate_email_expression(email_json, expression):
     # Convert Python strings to bytes
     email_json_b = email_json.encode('utf-8')
@@ -43,7 +46,31 @@ def evaluate_email_expression(email_json, expression):
         return False
     
     if result.lower().startswith("error:"):
-        raise HeimdallEvaluationError(result[6:])
+        err = result[6:]
+        raise HeimdallEvaluationError(err)
+
+    return result
+
+def evaluate_gmail_expression(email_json: str, expression: str):
+    # Convert Python strings to bytes
+    email_json_b = email_json.encode('utf-8')
+    expression_b = expression.encode('utf-8')
+
+    # Call the C function
+    result_b = lib.HandleGmailMessageC(email_json_b, expression_b)
+
+    # Convert the result back to a Python string
+    result = result_b.decode('utf-8')
+
+    if result == "true":
+        return True
+    
+    if result == "false":
+        return False
+    
+    if result.lower().startswith("error:"):
+        err = result[6:]
+        raise HeimdallEvaluationError(err)
 
     return result
 

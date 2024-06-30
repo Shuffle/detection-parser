@@ -13,49 +13,6 @@ import (
     // "unsafe"
 )
 
-// Attachment struct for email attachments
-type Attachment struct {
-	FileType  string `json:"filetype"`
-	FileBytes string `json:"file_bytes"` // Using string for simplicity, consider []byte for actual implementation
-	FileName  string `json:"filename"`
-}
-
-// Email struct for email details
-type Email struct {
-	Sender      string       `json:"sender"`
-	Receiver    string       `json:"receiver"`
-	Attachments []Attachment `json:"attachments"`
-	Header      string       `json:"header"`
-	Subject     string       `json:"subject"`
-	BCC         []string     `json:"bcc"`
-	CC          []string     `json:"cc"`
-	Body        string       `json:"body"`
-}
-
-// emailToMap converts an Email struct to a map for CEL evaluation
-func emailToMap(email Email) map[string]interface{} {
-	convertedEmail := map[string]interface{}{
-		"sender":    email.Sender,
-		"receiver":  email.Receiver,
-		"header":  email.Header,
-        "attachments": []map[string]interface{}{},
-		"subject": email.Subject,
-		"bcc":     email.BCC,
-		"cc":      email.CC,
-		"body":    email.Body,
-	}
-
-    for _, attachment := range email.Attachments {
-        convertedEmail["attachments"] = append(convertedEmail["attachments"].([]map[string]interface{}), map[string]interface{}{
-            "filetype": attachment.FileType,
-            "file_bytes": attachment.FileBytes,
-            "filename": attachment.FileName,
-        })
-    }
-
-    return convertedEmail
-}
-
 // EvaluateCELExpression evaluates a CEL expression against an email JSON
 func EvaluateCELExpression(emailJSON string, expression string) (bool, error) {
 	var email Email
@@ -115,6 +72,41 @@ func EvaluateCELExpressionC(emailJSON *C.char, expression *C.char) *C.char {
 	}
 	return C.CString("false")
 }
+
+func HandleGmailMessage(gmailJSON string, expression string) (bool, error) {
+	var gmail Gmail
+	err := json.Unmarshal([]byte(gmailJSON), &gmail)
+	if err != nil {
+		return false, fmt.Errorf("failed to parse JSON (Gmail): %v", err)
+	}
+
+	heimdallEmail := GmailToHeimdall(gmail)
+	emailMap := emailToMap(heimdallEmail)
+	emailJSON, err := json.Marshal(emailMap)
+	if err != nil {
+		return false, fmt.Errorf("failed to marshal email: %v", err)
+	}
+
+	return EvaluateCELExpression(string(emailJSON), expression)
+}
+
+//export HandleGmailMessageC
+func HandleGmailMessageC(gmail *C.char, expression *C.char) *C.char {
+	gmailStr := C.GoString(gmail)
+	exprStr := C.GoString(expression)
+	result, err := HandleGmailMessage(gmailStr, exprStr)
+	
+	if err != nil {
+		errStr := fmt.Sprintf("Error: %s", err)
+		return C.CString(errStr)
+	}
+	
+	if result {
+		return C.CString("true")
+	}
+	return C.CString("false")
+}
+
 
 func main() {
 	// Main function is empty since we are creating a shared library
