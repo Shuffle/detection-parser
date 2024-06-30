@@ -59,3 +59,7 @@ jobs:
         cd shuffle_email_rules/lib/
         git push origin "binaries-${{ matrix.goos }}-${{ matrix.goarch }}_$(date +'%Y%m%d%H%M%S')"
         gh pr create --title "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}" --body "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}" --base main --head "binaries-${{ matrix.goos }}-${{ matrix.goarch }}_$(date +'%Y%m%d%H%M%S')"
+      
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
