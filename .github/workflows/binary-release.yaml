@@ -43,6 +43,7 @@ jobs:
 
     - name: Commit binaries
       run: |
+        cd shuffle_email_rules/lib/
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
         branch_name="binaries-${{ github.sha }}"
