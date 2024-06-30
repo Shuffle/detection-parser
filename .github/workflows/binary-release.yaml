@@ -28,8 +28,8 @@ jobs:
 
     - name: Build binary
       run: |
+        set CGO_ENABLED=1  
         cd shuffle_email_rules/lib/
-        go clean -modcache
         mkdir -p build/${{ matrix.goos }}_${{ matrix.goarch }}
         GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/${{ matrix.goos }}_${{ matrix.goarch }}/hello_${{ matrix.goos }} -buildmode=c-shared
 
