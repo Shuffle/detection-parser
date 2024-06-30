@@ -37,7 +37,7 @@ jobs:
         cd shuffle_email_rules/lib/
         go mod tidy
         mkdir -p build/${{ matrix.goos }}_${{ matrix.goarch }}
-        go build -v -o build/libshuffleemail_{{ matrix.goos }}_{{ matrix.goarch }} -buildmode=c-shared
+        go build -v -o build/libshuffleemail_${{ matrix.goos }}_${{ matrix.goarch }} -buildmode=c-shared
       env:
         CGO_ENABLED: 1
         # GOOS: ${{ matrix.goos }}
