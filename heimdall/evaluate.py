@@ -1,7 +1,7 @@
 import os
 import ctypes
 
-from errors import HeimdallEvaluationError
+from .errors import HeimdallEvaluationError
 
 # Get the directory path of the current module
 module_dir = os.path.dirname(__file__)
