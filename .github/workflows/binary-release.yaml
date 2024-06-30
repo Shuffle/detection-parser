@@ -49,7 +49,7 @@ jobs:
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
         mkdir -p binaries/
-        mv build/libshuffleemail_{{ matrix.goos }}_{{ matrix.goarch }} binaries/
+        mv build/libshuffleemail_${{ matrix.goos }}_${{ matrix.goarch }} binaries/
         git add binaries/
         git commit -m "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}"
         git push origin main
