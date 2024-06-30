@@ -52,7 +52,7 @@ jobs:
         mv build/libshuffleemail_${{ matrix.goos }}_${{ matrix.goarch }} binaries/
         git add binaries/
         git commit -m "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}"
-        git Checkout -b "binaries-${{ matrix.goos }}-${{ matrix.goarch }}_$(date +'%Y%m%d%H%M%S')"
+        git checkout -b "binaries-${{ matrix.goos }}-${{ matrix.goarch }}_$(date +'%Y%m%d%H%M%S')"
     
     - name: Make a PR 
       run: |
