@@ -10,7 +10,7 @@ import (
 	"github.com/google/cel-go/cel"
 	"github.com/google/cel-go/checker/decls"
     "log"
-    "unsafe"
+    // "unsafe"
 )
 
 // Attachment struct for email attachments
@@ -115,11 +115,6 @@ func EvaluateCELExpressionC(emailJSON *C.char, expression *C.char) *C.char {
 		return C.CString("true")
 	}
 	return C.CString("false")
-}
-
-//export FreeCString
-func FreeCString(str *C.char) {
-    C.free(unsafe.Pointer(str))
 }
 
 func main() {
