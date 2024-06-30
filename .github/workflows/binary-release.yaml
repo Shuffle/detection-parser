@@ -4,9 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '!heimdall/lib/binaries/**'
-      - '*.go'
+    paths-ignore:
+      - 'heimdall/lib/binaries/**'
 
 jobs:
   build:
