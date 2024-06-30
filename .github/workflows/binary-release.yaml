@@ -44,7 +44,7 @@ jobs:
         cd heimdall/lib/
         go mod tidy
         mkdir -p build/${{ matrix.goos }}_${{ matrix.goarch }}
-        go build -v -o build/libshuffleemail_${{ matrix.goos }}_${{ matrix.goarch }} -buildmode=c-shared
+        go build -v -o build/libshuffleemail_${{ matrix.goos }}_${{ matrix.goarch }} -buildmode=c-shared *.go
       env:
         CGO_ENABLED: 1
         # GOOS: ${{ matrix.goos }}

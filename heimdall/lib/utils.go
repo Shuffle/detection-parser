@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+
 func Base64Decode(input string) (string, error) {
 	encoded := strings.TrimSpace(input)
 	encoded = strings.ReplaceAll(input, "\n", "")
