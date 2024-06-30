@@ -46,6 +46,9 @@ jobs:
     - name: Commit binaries
       run: |
         cd shuffle_email_rules/lib/
+        # the following is a little hacky. 
+        # Will convert to a PR when things are more stable
+        git config pull.rebase false  # merge
         git pull
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
