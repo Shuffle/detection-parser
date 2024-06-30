@@ -13,7 +13,6 @@ architecture = "arm64" if (os.uname().machine == "aarch64" or os.uname().machine
 binary_name = f"libshuffleemail_{platform}_{architecture}"
 
 try:
-    # Construct the path to libhello.so
     lib_path = os.path.join(module_dir, 'lib', 'binaries', binary_name)
 
     # Load the library
