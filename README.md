@@ -22,3 +22,7 @@ print(result)
 ## To-do
 
 Works on most platforms. The power of heimdall should shine when you have a lot of emails to process but you want to write simple code that is also fast.
+
+- [ ] Add support for outlook API result
+- [ ] Add support for gmail API result
+- [ ] Make setup.py pull the right binary during install instead of having everything in the repo.

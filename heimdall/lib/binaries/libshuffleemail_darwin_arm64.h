@@ -80,7 +80,6 @@ extern "C" {
 #endif
 
 extern char* EvaluateCELExpressionC(char* emailJSON, char* expression);
-extern void FreeCString(char* str);
 
 #ifdef __cplusplus
 }

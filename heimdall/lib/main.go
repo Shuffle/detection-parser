@@ -106,8 +106,7 @@ func EvaluateCELExpressionC(emailJSON *C.char, expression *C.char) *C.char {
 	result, err := EvaluateCELExpression(emailStr, exprStr)
 	
 	if err != nil {
-		errStr := fmt.Sprintf("Error evaluating CEL expression: %s", err)
-        log.Printf("Error evaluating CEL expression: %s", errStr)
+		errStr := fmt.Sprintf("Error: %s", err)
 		return C.CString(errStr)
 	}
 	

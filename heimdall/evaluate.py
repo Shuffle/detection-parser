@@ -1,6 +1,8 @@
 import os
 import ctypes
 
+from .errors import HeimdallEvaluationError
+
 # Get the directory path of the current module
 module_dir = os.path.dirname(__file__)
 
@@ -35,8 +37,16 @@ def evaluate_email_expression(email_json, expression):
     # Convert the result back to a Python string
     result = result_b.decode('utf-8')
 
-    return result
+    if result == "true":
+        return True
+    
+    if result == "false":
+        return False
+    
+    if result.lower().startswith("error:"):
+        raise HeimdallEvaluationError(result[6:])
 
+    return result
 
 if __name__ == '__main__':
     # Example usage
