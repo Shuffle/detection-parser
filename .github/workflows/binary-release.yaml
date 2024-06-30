@@ -1,0 +1,57 @@
+name: Build and Commit Go Binaries
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        goos: [linux, windows, darwin]
+        goarch: [amd64]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '1.18' # Replace with your Go version
+
+    - name: Build binary
+      run: |
+        cd shuffle_email_rules/lib/
+        mkdir -p build/${{ matrix.goos }}_${{ matrix.goarch }}
+        GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o build/${{ matrix.goos }}_${{ matrix.goarch }}/hello_${{ matrix.goos }} -buildmode=c-shared
+
+    - name: Commit binaries
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        branch_name="binaries-${{ github.sha }}"
+        git checkout -b $branch_name
+        mkdir -p binaries/${{ matrix.goos }}_${{ matrix.goarch }}
+        mv build/${{ matrix.goos }}_${{ matrix.goarch }}/hello_${{ matrix.goos }} binaries/${{ matrix.goos }}_${{ matrix.goarch }}/
+        git add binaries/
+        git commit -m "Add compiled binaries for ${{ matrix.goos }}_${{ matrix.goarch }}"
+        git push origin $branch_name
+
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: Add compiled binaries for ${{ matrix.goos }}_${{ matrix.goarch }}
+        branch: binaries-${{ github.sha }}
+        title: Add compiled binaries
+        body: |
+          This PR adds the compiled binaries for the following platform and architecture:
+          - OS: ${{ matrix.goos }}
+          - Architecture: ${{ matrix.goarch }}
