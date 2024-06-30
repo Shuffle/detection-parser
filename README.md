@@ -5,7 +5,7 @@ Email rules for everyone
 ## Installation
 
 ```bash
-pip install shuffle-email-rules
+pip install shuffle-heimdall
 ```
 
 
