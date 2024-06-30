@@ -59,7 +59,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         commit-message: Add compiled binaries for ${{ matrix.goos }}_${{ matrix.goarch }}
-        branch: binaries-${{ github.sha }}
+        branch: main
         title: Add compiled binaries
         body: |
           This PR adds the compiled binaries for the following platform and architecture:
