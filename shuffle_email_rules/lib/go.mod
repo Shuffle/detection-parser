@@ -1,6 +1,6 @@
 module github.com/Shuffle/shuffle-email-rules
 
-go 1.22.3
+go 1.22
 
 require github.com/google/cel-go v0.20.1
 
