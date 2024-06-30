@@ -1,4 +1,4 @@
-# shuffle-email-rules/main.py
+# heimdall/main.py
 import json
 from evaluate import evaluate_email_expression, evaluate_gmail_expression
 

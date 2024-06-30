@@ -19,11 +19,13 @@ result = evaluate_email_expression(email_json, expression)
 print(result)
 ```
 
+To see more examples, check out the [main.py](./heimdall/main.py) file.
+
 ## To-do
 
 Works on most platforms. The power of heimdall should shine when you have a lot of emails to process but you want to write simple code that is also fast.
 
 - [ ] Add support for outlook API result
-- [x] Add support for gmail API result
+- [x] Add support for gmail API result (`evaluate_gmail_expression()`)
 - [ ] Add support for gmail API when in mass
 - [ ] Make setup.py pull the right binary during install instead of having everything in the repo.
