@@ -33,6 +33,12 @@ jobs:
     #     version: latest
     #     platform: ${{ matrix.goarch }}
 
+    - name: Pausing if darwin and arm64
+      if: matrix.goos == 'darwin' && matrix.goarch == 'arm64'
+      run: |
+        echo "Exiting with error. Please push this manually"
+        exit 1
+
     - name: Build binary
       run: | 
         cd shuffle_email_rules/lib/
