@@ -46,14 +46,16 @@ jobs:
     - name: Commit binaries
       run: |
         cd shuffle_email_rules/lib/
-        # the following is a little hacky. 
-        # Will convert to a PR when things are more stable
-        git config pull.rebase false  # merge
-        git pull
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
         mkdir -p binaries/
         mv build/libshuffleemail_${{ matrix.goos }}_${{ matrix.goarch }} binaries/
         git add binaries/
         git commit -m "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}"
-        git push origin main
+        git Checkout -b "binaries-${{ matrix.goos }}-${{ matrix.goarch }}_$(date +'%Y%m%d%H%M%S')"
+    
+    - name: Make a PR 
+      run: |
+        cd shuffle_email_rules/lib/
+        git push origin "binaries-${{ matrix.goos }}-${{ matrix.goarch }}_$(date +'%Y%m%d%H%M%S')"
+        gh pr create --title "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}" --body "Add compiled binaries for ${{ matrix.goos }} - ${{ matrix.goarch }}" --base main --head "binaries-${{ matrix.goos }}-${{ matrix.goarch }}_$(date +'%Y%m%d%H%M%S')"
