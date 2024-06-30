@@ -1,3 +1,5 @@
+// +build linux darwin windows freebsd
+
 package main
 
 /*
