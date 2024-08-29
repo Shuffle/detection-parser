@@ -15,3 +15,7 @@ def parse_yaml_files_in_directory(directory):
         if file.endswith('.yaml'):
             data[file] = parse_yaml_file(os.path.join(directory, file))
     return data
+
+def file_to_rules(file_path):
+    data = parse_yaml_file(file_path)
+    return data.get('source', "")

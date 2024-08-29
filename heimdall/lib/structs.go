@@ -37,6 +37,7 @@ type Domain struct {
 
 type Email struct {
 	Domain Domain `json:"domain"`
+	Email string `json:"email"`
 }
 
 type Sender struct {

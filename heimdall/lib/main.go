@@ -26,14 +26,15 @@ func EvaluateCELExpression(senderJSON string, expression string) (bool, error) {
 			"domain": map[string]interface{}{
 				"domain": sender.Email.Domain.Domain,
 			},
+			"email": sender.Email.Email,
 		},
 	}
 
 	env, err := cel.NewEnv(
 		cel.Declarations(
 			decls.NewVar("sender", decls.NewMapType(decls.String, decls.Any)),
-		),
-	)
+	))
+
 	if err != nil {
 		return false, fmt.Errorf("failed to create CEL environment: %v", err)
 	}
@@ -45,9 +46,13 @@ func EvaluateCELExpression(senderJSON string, expression string) (bool, error) {
 	if err != nil {
 		return false, fmt.Errorf("failed to create program: %v", err)
 	}
+
+	log.Printf("senderMap: %v\n", senderMap)
+
 	out, _, err := prg.Eval(map[string]interface{}{
 		"sender": senderMap,
 	})
+
 	if err != nil {
 		log.Printf("failed to evaluate expression: %v", err)
 		return false, err
@@ -93,22 +98,24 @@ func EvaluateCELExpressionC(senderJSON *C.char, expression *C.char) *C.char {
 // 	return EvaluateCELExpression(string(emailJSON), expression)
 // }
 
-// //export HandleGmailMessageC
-// func HandleGmailMessageC(gmail *C.char, expression *C.char) *C.char {
-// 	gmailStr := C.GoString(gmail)
-// 	exprStr := C.GoString(expression)
-// 	result, err := HandleGmailMessage(gmailStr, exprStr)
+//export HandleGmailMessageC
+func HandleGmailMessageC(gmail *C.char, expression *C.char) *C.char {
+	// gmailStr := C.GoString(gmail)
+	// exprStr := C.GoString(expression)
+	// result, err := HandleGmailMessage(gmailStr, exprStr)
 	
-// 	if err != nil {
-// 		errStr := fmt.Sprintf("Error: %s", err)
-// 		return C.CString(errStr)
-// 	}
+	// if err != nil {
+	// 	errStr := fmt.Sprintf("Error: %s", err)
+	// 	return C.CString(errStr)
+	// }
 	
-// 	if result {
-// 		return C.CString("true")
-// 	}
-// 	return C.CString("false")
-// }
+	// if result {
+	// 	return C.CString("true")
+	// }
+	// return C.CString("false")
+
+	return C.CString("false")
+}
 
 func main() {
 	// Main function is empty since we are creating a shared library

@@ -1,6 +1,8 @@
 import os
 import ctypes
 
+from .yaml_parser import file_to_rules
+
 from .errors import HeimdallEvaluationError
 
 # Get the directory path of the current module
@@ -10,7 +12,8 @@ platform = os.uname().sysname.lower()
 # get if the architecture is arm64 or amd64
 architecture = "arm64" if (os.uname().machine == "aarch64" or os.uname().machine == "arm64" ) else "amd64"
 
-binary_name = f"libshuffleemail_{platform}_{architecture}"
+# binary_name = f"libshuffleemail_{platform}_{architecture}"
+binary_name = f"libshuffleemail"
 
 try:
     lib_path = os.path.join(module_dir, 'lib', 'binaries', binary_name)
@@ -28,7 +31,7 @@ lib.EvaluateCELExpressionC.restype = ctypes.c_char_p
 lib.HandleGmailMessageC.argtypes = [ctypes.c_char_p, ctypes.c_char_p]
 lib.HandleGmailMessageC.restype = ctypes.c_char_p
 
-def evaluate_email_expression(email_json, expression):
+def evaluate_email_expression(email_json: str, expression: str):
     # Convert Python strings to bytes
     email_json_b = email_json.encode('utf-8')
     expression_b = expression.encode('utf-8')
@@ -50,6 +53,11 @@ def evaluate_email_expression(email_json, expression):
         raise HeimdallEvaluationError(err)
 
     return result
+
+def evaluate_file_expression(file_path, email_json):
+    rule = file_to_rules(file_path)
+    email_json = str(email_json)
+    return evaluate_email_expression(email_json, rule)
 
 def evaluate_gmail_expression(email_json: str, expression: str):
     # Convert Python strings to bytes
