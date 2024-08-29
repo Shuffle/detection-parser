@@ -1,0 +1,18 @@
+name: "Brand impersonation: Twitter"
+description: |
+  Impersonation of Twitter
+references:
+  - "https://www.techrepublic.com/article/phishing-attack-spoofs-twitter-to-steal-account-credentials/"
+type: "rule"
+severity: "medium"
+source: |
+  !(sender.email.domain.domain in ['twitter.com', 'privaterelay.appleid.com', 'stripe.com', 'x.com', 'twitter.discoursemail.com'])
+attack_types:
+  - "Credential Phishing"
+tactics_and_techniques:
+  - "Impersonation: Brand"
+  - "Lookalike domain"
+  - "Social engineering"
+detection_methods:
+  - "Sender analysis"
+id: "013c32c2-fa05-5456-9c45-284e008ff6a4"

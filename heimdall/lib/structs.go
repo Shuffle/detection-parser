@@ -2,13 +2,13 @@ package main
 
 type GmailParts struct {
 	Headers []struct {
-		Name string `json:"name"`
+		Name  string `json:"name"`
 		Value string `json:"value"`
 	}
 	FileName string `json:"filename"`
-	Body struct {
+	Body     struct {
 		Data string `json:"data"`
-		Size int `json:"size"`
+		Size int    `json:"size"`
 	}
 	Parts []GmailParts `json:"parts"`
 }
@@ -16,11 +16,11 @@ type GmailParts struct {
 type Gmail struct {
 	Payload struct {
 		Headers []struct {
-			Name string `json:"name"`
+			Name  string `json:"name"`
 			Value string `json:"value"`
 		}
-		FileName string `json:"filename"`
-		Parts []GmailParts `json:"parts"`
+		FileName string       `json:"filename"`
+		Parts    []GmailParts `json:"parts"`
 	} `json:"payload"`
 }
 
@@ -31,21 +31,31 @@ type Attachment struct {
 	FileName  string `json:"filename"`
 }
 
-// Email struct for email details
-type Email struct {
-	Sender      string       `json:"sender"`
-	Receiver    string       `json:"receiver"`
-	ReceivedAt  int       	 `json:"received_at"` // Unix timestamp
-	Attachments []Attachment `json:"attachments"`
-	Headers 	[]struct {
-		Name string `json:"name"`
-		Value string `json:"value"`
-	} `json:"headers"`
-	Subject     string       `json:"subject"`
-	BCC         []string     `json:"bcc"`
-	CC          []string     `json:"cc"`
-	Body        string       `json:"body"`
-	BodyHTML    string       `json:"body_html"`
+type Domain struct {
+	Domain string `json:"domain"`
 }
 
+type Email struct {
+	Domain Domain `json:"domain"`
+}
 
+type Sender struct {
+	Email Email `json:"email"`
+}
+
+// // Email struct for email details
+// type Email struct {
+// 	Sender      string       `json:"sender"`
+// 	Receiver    string       `json:"receiver"`
+// 	ReceivedAt  int       	 `json:"received_at"` // Unix timestamp
+// 	Attachments []Attachment `json:"attachments"`
+// 	Headers 	[]struct {
+// 		Name string `json:"name"`
+// 		Value string `json:"value"`
+// 	} `json:"headers"`
+// 	Subject     string       `json:"subject"`
+// 	BCC         []string     `json:"bcc"`
+// 	CC          []string     `json:"cc"`
+// 	Body        string       `json:"body"`
+// 	BodyHTML    string       `json:"body_html"`
+// }
