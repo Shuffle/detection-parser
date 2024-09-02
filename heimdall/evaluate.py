@@ -12,8 +12,8 @@ platform = os.uname().sysname.lower()
 # get if the architecture is arm64 or amd64
 architecture = "arm64" if (os.uname().machine == "aarch64" or os.uname().machine == "arm64" ) else "amd64"
 
-# binary_name = f"libshuffleemail_{platform}_{architecture}"
-binary_name = f"libshuffleemail"
+binary_name = f"libshuffleemail_{platform}_{architecture}"
+# binary_name = f"libshuffleemail"
 
 try:
     lib_path = os.path.join(module_dir, 'lib', 'binaries', binary_name)
