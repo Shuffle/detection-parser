@@ -1,6 +1,6 @@
 # Introduction
 
-Email rules for everyone
+Detection rule parser for everyone with focus on Email
 
 ## Installation
 
